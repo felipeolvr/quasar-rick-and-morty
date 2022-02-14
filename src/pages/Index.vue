@@ -10,8 +10,40 @@
 
 <script>
 import { defineComponent } from "vue";
+import axios from "axios";
 
 export default defineComponent({
   name: "PageIndex",
+  data() {
+    return {};
+  },
+  methods: {
+    getCharacter() {
+      const endpoint = "https://rickandmortyapi.com/graphql";
+
+      const graphqlQuery = {
+        query: `query {
+  characters(
+page: 0,
+){
+    
+    results {
+      id, name, gender, type, image, location {
+				id, name, dimension
+			}
+    }
+  }
+
+}`,
+      };
+
+      axios.post(endpoint, graphqlQuery).then((response) => {
+        console.log(response.data.data.characters.results);
+      });
+    },
+  },
+  created() {
+    this.getCharacter();
+  },
 });
 </script>
