@@ -29,7 +29,7 @@
 
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
-          <q-card>
+          <q-card clickable @click="exibirCharacter(props.row.id)">
             <q-card-section class="text-center">
               <q-img :src="props.row.image"></q-img>
               <br />
@@ -95,6 +95,10 @@ export default defineComponent({
       });
     }
 
+    function exibirCharacter(id) {
+      console.log(id);
+    }
+
     const filter = ref("");
     const pagination = ref({
       page: 1,
@@ -113,6 +117,7 @@ export default defineComponent({
     });
 
     return {
+      exibirCharacter,
       data,
       filter,
       pagination,
