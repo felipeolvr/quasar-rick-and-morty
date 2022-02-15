@@ -96,6 +96,12 @@ export default defineComponent({
     }
 
     function exibirCharacter(id) {
+      this.$router.push({
+        name: "exibirCharacter",
+        params: {
+          id: id,
+        },
+      });
       console.log(id);
     }
 
