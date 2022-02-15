@@ -1,51 +1,49 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md">
-      <q-table
-        grid
-        v-if="data"
-        :card-container-class="cardContainerClass"
-        title="Treats"
-        :rows="data"
-        :columns="columns"
-        row-key="name"
-        :filter="filter"
-        hide-header
-        v-model:pagination="pagination"
-        :rows-per-page-options="rowsPerPageOptions"
-      >
-        <template v-slot:top-right>
-          <q-input
-            borderless
-            dense
-            debounce="300"
-            v-model="filter"
-            placeholder="Search"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </template>
+  <div class="q-pa-md">
+    <q-table
+      grid
+      v-if="data"
+      :card-container-class="cardContainerClass"
+      title=""
+      :rows="data"
+      :columns="columns"
+      row-key="name"
+      :filter="filter"
+      hide-header
+      v-model:pagination="pagination"
+      :rows-per-page-options="rowsPerPageOptions"
+    >
+      <template v-slot:top-right>
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Pesquisar"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
 
-        <template v-slot:item="props">
-          <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
-            <q-card>
-              <q-card-section class="text-center">
-                <q-img :src="props.row.image"></q-img>
-                <br />
-                <strong>{{ props.row.name }}</strong>
-              </q-card-section>
-              <q-separator />
-              <q-card-section class="flex flex-center">
-                <div>{{ props.row.gender }}</div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </template>
-      </q-table>
-    </div>
-  </q-page>
+      <template v-slot:item="props">
+        <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
+          <q-card>
+            <q-card-section class="text-center">
+              <q-img :src="props.row.image"></q-img>
+              <br />
+              <strong>{{ props.row.name }}</strong>
+            </q-card-section>
+            <q-separator />
+            <q-card-section class="flex flex-center">
+              <div>{{ props.row.gender }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
+      </template>
+    </q-table>
+  </div>
 </template>
 
 <script>
@@ -54,40 +52,9 @@ import axios from "axios";
 import { useQuasar } from "quasar";
 import { ref, computed, watch, onMounted } from "vue";
 
-const deserts = [
-  "Frozen Yogurt",
-  "Ice cream sandwich",
-  "Eclair",
-  "Cupcake",
-  "Gingerbread",
-  "Jelly bean",
-  "Lollipop",
-  "Honeycomb",
-  "Donut",
-  "KitKat",
-];
-
-const rows = [];
-
-deserts.forEach((name) => {
-  for (let i = 0; i < 24; i++) {
-    rows.push({
-      name: name + " (" + i + ")",
-      calories: 20 + Math.ceil(50 * Math.random()),
-    });
-  }
-});
-
-rows.sort(() => -1 + Math.floor(3 * Math.random()));
-
 export default defineComponent({
   name: "PageIndex",
 
-  // data() {
-  //   return {
-  //     data: [],
-  //   };
-  // },
   setup() {
     const $q = useQuasar();
 
@@ -100,7 +67,9 @@ export default defineComponent({
       }
       return 9;
     }
+
     const data = ref(null);
+
     function getCharacter() {
       const endpoint = "https://rickandmortyapi.com/graphql";
 
@@ -144,14 +113,13 @@ export default defineComponent({
     });
 
     return {
-      rows,
       data,
       filter,
       pagination,
 
       columns: [
-        { name: "name", label: "Name", field: "Nome" },
-        { name: "calories", label: "Calories (g)", field: "calories" },
+        { name: "name", label: "Name", field: "name" },
+        { name: "gender", label: "Gênero", field: "gender" },
       ],
 
       cardContainerClass: computed(() => {
