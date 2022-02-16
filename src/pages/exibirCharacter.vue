@@ -1,6 +1,32 @@
 <template>
-  <h2>chegou aqui</h2>
-  {{ data }}
+  <div v-if="data" class="q-pa-md">
+    <q-card class="my-card">
+      <img style="height: 600px; width: auto" :src="data.image" />
+      <q-card-section>
+        <div class="text-h6">{{ data.name }}</div>
+        <div class="text-subtitle2">Gênero: {{ data.gender }}</div>
+        <div class="text-subtitle2">Status: {{ data.status }}</div>
+        <div class="text-subtitle2">Localidade: {{ data.location.name }}</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <div class="text-h6">Episódios que aparece:</div>
+
+        <q-list bordered separator>
+          <q-item
+            clickable
+            v-ripple
+            v-for="episodio in data.episode"
+            :key="episodio.name"
+          >
+            <q-item-section
+              >{{ episodio.episode }} - {{ episodio.name }}
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
 
 <script>
@@ -21,11 +47,11 @@ export default {
       const graphqlQuery = {
         query: `query {
   character(id: "${route.params.id}") {
-		id, name, image, location{
+		id, name, gender, status, image, location{
 			name
 		},
 		episode {
-			id, name
+			id, name, air_date, episode
 		}
 	}
 }`,
