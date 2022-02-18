@@ -29,7 +29,11 @@
 
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
-          <q-card clickable @click="exibirCharacter(props.row.id)">
+          <q-card
+            style="cursor: pointer"
+            clickable
+            @click="exibirCharacter(props.row.id)"
+          >
             <q-card-section class="text-center">
               <q-img :src="props.row.image"></q-img>
               <br />
