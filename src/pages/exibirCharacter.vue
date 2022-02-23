@@ -18,10 +18,13 @@
             v-ripple
             v-for="episodio in data.episode"
             :key="episodio.name"
+            @click="exibirEpisode(episodio.id)"
           >
-            <q-item-section
-              >{{ episodio.episode }} - {{ episodio.name }}
-            </q-item-section>
+            <div>
+              <q-item-section
+                >{{ episodio.episode }} - {{ episodio.name }}
+              </q-item-section>
+            </div>
           </q-item>
         </q-list>
       </q-card-section>
@@ -30,13 +33,18 @@
 </template>
 
 <script>
+import { defineComponent } from "vue";
+
 import axios from "axios";
 import { ref, onMounted } from "vue";
+import { useQuasar } from "quasar";
 import { useRoute } from "vue-router";
 
-export default {
+export default defineComponent({
   name: "exibirCharacter",
   setup() {
+    const $q = useQuasar();
+
     const route = useRoute();
 
     const data = ref(null);
@@ -62,15 +70,27 @@ export default {
         console.log(response.data.data.character);
       });
     }
+
+    function exibirEpisode(id) {
+      this.$router.push({
+        name: "exibirEpisode",
+        params: {
+          id: id,
+        },
+      });
+      console.log(id);
+    }
+
     onMounted(async () => {
       getCharacter();
     });
 
     return {
+      exibirEpisode,
       data,
     };
   },
-};
+});
 </script>
 
 <style>
